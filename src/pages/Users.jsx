@@ -53,7 +53,7 @@ export default function Users() {
         </button>
 
         <span>
-          Page {page} of {totalPages}
+          Page {page} of  {totalPages}
         </span>
 
         <button
