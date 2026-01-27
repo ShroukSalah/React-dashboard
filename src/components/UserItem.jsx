@@ -5,7 +5,7 @@ function UserItem({ user }) {
 
   return (
     <li>
-      {user.name}
+      {user.firstName}
     </li>
   );
 }

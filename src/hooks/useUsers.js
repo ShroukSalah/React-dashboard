@@ -7,7 +7,7 @@ export function useUsers() {
 
   useEffect(() => {
     api.get("/users").then(res => {
-      setUsers(res.data);
+      setUsers(res.data.users);
       setLoading(false);
     });
   }, []);
