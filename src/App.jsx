@@ -1,20 +1,34 @@
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import Home from "./pages/Home";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
+import ProtectedRoute from "./routes/ProtectedRoute";
+import DashboardLayout from "./layout/DashboardLayout";
+import Dashboard from "./pages/Dashboard";
 import Users from "./pages/Users";
+import Login from "./pages/Login";
 
-function App() {
+export default function App() {
   return (
-    <BrowserRouter>
-      <nav>
-        <Link to="/">Home</Link> | <Link to="/users">Users</Link>
-      </nav>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
 
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/users" element={<Users />} />
-      </Routes>
-    </BrowserRouter>
+          <Route path="/login" element={<Login />} />
+
+          <Route
+            element={
+              <ProtectedRoute>
+                <DashboardLayout />
+              </ProtectedRoute>
+            }
+          >
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/users" element={<Users />} />
+          </Route>
+
+          <Route path="*" element={<Navigate to="/dashboard" />} />
+
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
-
-export default App;

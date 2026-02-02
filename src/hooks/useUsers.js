@@ -1,16 +1,26 @@
 import { useEffect, useState } from "react";
-import { api } from "../services/api";
+import { getUsers } from "../services/users.service";
 
 export function useUsers() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const fetchUsers = async () => {
+    try {
+      setLoading(true);
+      const data = await getUsers();
+      setUsers(data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    api.get("/users").then(res => {
-      setUsers(res.data.users);
-      setLoading(false);
-    });
+    fetchUsers();
   }, []);
 
-  return { users, loading };
+  return { users, loading, error, refetch: fetchUsers };
 }
